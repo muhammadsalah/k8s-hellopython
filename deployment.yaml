@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellopython
+  labels:
+    app: hellopython
+    version: CHANGEVERSION
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hellopython
+  template:
+    metadata:
+      labels:
+        app: hellopython
+    spec:
+      containers:
+        - name: hellopython
+          image: CHANGEIMAGE
+          imagePullPolicy: Always
+          ports:
+            - name: http-hellopython
+              containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
